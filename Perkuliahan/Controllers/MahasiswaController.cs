@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Perkuliahan.Data;
 using Perkuliahan.Models;
 using Perkuliahan.Models.Entities;
+using PagedList;
 
 namespace Perkuliahan.Controllers
 {
@@ -46,10 +47,20 @@ namespace Perkuliahan.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string cariString,int? pageNumber)
         {
+            int pageSize = 5;
             var mahasiswa = await dbContext.Mahasiswas.ToListAsync();
-            return View(mahasiswa);
+
+            if (!String.IsNullOrEmpty(cariString))
+            {
+                mahasiswa = await dbContext.Mahasiswas
+                    .Where(n => n.Nama_Mhs.Contains(cariString))
+                    .ToListAsync();
+            }
+
+            return View(PaginatedList<Mahasiswa>.Create(dbContext.Mahasiswas.ToList()
+                ,pageNumber ?? 1,pageSize));
         }
 
 

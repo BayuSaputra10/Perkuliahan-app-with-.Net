@@ -3,9 +3,20 @@
 *@
 @{
 }
-@model List<Perkuliahan.Models.Entities.Kuliah>
+@model PaginatedList<Perkuliahan.Models.Entities.Kuliah>
 
-<h1>Daftar Kuliah</h1>
+<h1>Daftar Perkuliahan</h1>
+<div class="row">
+    <div class="col-md-6">
+        <form class="d-flex" asp-action="List" asp-controller="Kuliah" method="get">
+            <input name="cariString" class="form-control me-1" type="search" placeholder="Cari.." aria-label="Cari" />
+            <button class="btn btn-dark" type="submit">Cari berdasar Nama</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <a asp-action="List" class="text-dark">Lihat Semua</a>
+    </div>
+</div>
 <div class="m-3">
     <a class="btn btn-outline-success ms-3" asp-action="Add" asp-controller="Kuliah">Tambah Kuliah</a>
 </div>
@@ -34,3 +45,11 @@
         }
     </tbody>
 </table>
+
+@{
+    var prevDisable = !Model.HasPreviousPage ? "disable" : "";
+    var nextDisable = !Model.HasNextPage ? "disable" : "";
+}
+<a asp-action="List" asp-route-pageNumber="@(Model.PageIndex-1)" class="btn btn-default @prevDisable">Previous</a>
+<a asp-action="List" asp-route-pageNumber="@(Model.PageIndex+1)" class="btn btn-default @nextDisable">Next</a>
+

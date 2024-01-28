@@ -56,15 +56,25 @@ namespace Perkuliahan.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string cariString, int? pageNumber)
         {
+
+            int pageSize = 5;
             var kuliahs = await dbContext.Kuliahs
                 .Include(k => k.Mahasiswa)
                 .Include(k => k.MataKuliah)
                 .Include(k => k.Dosen)
                 .ToListAsync();
 
-            return View(kuliahs);
+            if (!String.IsNullOrEmpty(cariString))
+            {
+                kuliahs = await dbContext.Kuliahs
+                    .Where(n => n.Mahasiswa.Nama_Mhs.Contains(cariString))
+                    .ToListAsync();
+            }
+
+            return View(PaginatedList<Kuliah>.Create(dbContext.Kuliahs.ToList()
+                 , pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]

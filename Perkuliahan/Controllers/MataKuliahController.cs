@@ -42,10 +42,18 @@ namespace Perkuliahan.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> List()
+        public async Task<IActionResult> List(string cariString, int? pageNumber)
         {
+            int pageSize = 5;
             var mataKuliah = await dbContext.MataKuliahs.ToListAsync();
-            return View(mataKuliah);
+            if (!String.IsNullOrEmpty(cariString))
+            {
+                mataKuliah = await dbContext.MataKuliahs
+                    .Where(n => n.Nama_MK.Contains(cariString))
+                    .ToListAsync();
+            }
+            return View(PaginatedList<MataKuliah>.Create(dbContext.MataKuliahs.ToList()
+                 , pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]
