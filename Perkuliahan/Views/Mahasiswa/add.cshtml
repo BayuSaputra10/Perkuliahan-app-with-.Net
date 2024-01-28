@@ -1,0 +1,47 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model Perkuliahan.Models.AddMahasiswaViewModel
+
+<div>Menambahkan Mahasiswa</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success mt-3" role="alert">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+<form method="post">
+<div class="mt-3">
+    <label class="form-label">Nama</label>
+    <input type="text" class="form-control" asp-for="Nama_Mhs"/>
+</div>
+
+<div class="mt-3">
+    <label class="form-label">Tanggal Lahir</label>
+    <input type="date" class="form-control" asp-for="Tgl_lahir"/>
+</div>
+
+<div class="mt-3">
+    <label class="form-label">Alamat</label>
+    <textarea class="form-control" asp-for="Alamat"></textarea>
+</div>
+
+    <div class="mt-3">
+        @Html.LabelFor(model => model.Jenis_Kelamin, new { @class = "form-label" })
+        @Html.DropDownListFor(model => model.Jenis_Kelamin, new List<SelectListItem>
+        {
+        new SelectListItem { Text = "Laki-Laki", Value = "LakiLaki" },
+        new SelectListItem { Text = "Perempuan", Value = "Perempuan" }
+        }, new { @class = "form-control" })
+    </div>
+
+
+<div class="mt-3">
+    <button class="btn btn-primary">Simpan</button>
+</div>
+</form>

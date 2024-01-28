@@ -1,0 +1,36 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<Perkuliahan.Models.Entities.Kuliah>
+
+<h1>Daftar Kuliah</h1>
+<div class="m-3">
+    <a class="btn btn-outline-success ms-3" asp-action="Add" asp-controller="Kuliah">Tambah Kuliah</a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>NIM dan Nama</th>
+            <th>Kode dan Nama Mata Kuliah</th>
+            <th>NIP dan Nama Dosen</th>
+            <th>Nilai</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var kuliah in Model)
+        {
+            <tr>
+                <td>@kuliah.Nim - @kuliah.Mahasiswa.Nama_Mhs</td>
+                <td>@kuliah.Kode_MK - @kuliah.MataKuliah.Nama_MK</td>
+                <td>@kuliah.Nip - @kuliah.Dosen.Nama_Dosen</td>
+                <td>@kuliah.Nilai</td>
+                <td>
+                    <a class="btn btn-primary" asp-controller="Kuliah" asp-action="Edit" asp-route-kuliahId="@kuliah.KuliahId">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
