@@ -49,6 +49,7 @@ namespace Perkuliahan.Controllers
         [HttpGet]
         public async Task<IActionResult> List(string cariString,int? pageNumber)
         {
+
             int pageSize = 5;
             var mahasiswa = await dbContext.Mahasiswas.ToListAsync();
 
